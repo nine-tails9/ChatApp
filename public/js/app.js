@@ -1408,19 +1408,31 @@ Vue.component('chat-log', __webpack_require__(50));
 Vue.component('chat-composer', __webpack_require__(55));
 
 var app = new Vue({
-  el: '#app',
+    el: '#app',
 
-  data: {
+    data: {
 
-    messages: []
+        messages: []
 
-  },
-  methods: {
-    addmessage: function addmessage(message) {
+    },
+    methods: {
+        addmessage: function addmessage(Message) {
 
-      this.messages.push(message);
+            this.messages.push(Message);
+
+            axios.post('/messages', Message).then(function (response) {});
+        }
+    },
+
+    created: function created() {
+        var _this = this;
+
+        axios.get('/messages').then(function (response) {
+
+            _this.messages = response.data;
+            console.log(response);
+        });
     }
-  }
 });
 
 /***/ }),
@@ -43396,11 +43408,11 @@ var render = function() {
     _c("div", { staticClass: "container" }, [
       _c("div", { staticClass: "panel panel-default" }, [
         _c("div", { staticClass: "panel-body" }, [
-          _vm._v("\n\t\t    \t" + _vm._s(_vm.message.message) + "\n\t\t  \t")
+          _vm._v("\n\t\t    \t" + _vm._s(_vm.message.Message) + "\n\t\t  \t")
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "panel-footer" }, [
-          _c("small", [_vm._v("Sent By " + _vm._s(_vm.message.author))])
+          _c("small", [_vm._v("Sent By " + _vm._s(_vm.message.user.name))])
         ])
       ])
     ])
@@ -43643,7 +43655,7 @@ exports = module.exports = __webpack_require__(4)(undefined);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -43687,8 +43699,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             this.$emit('sent', {
 
-                message: this.messagetext,
-                author: "Deepanshu"
+                Message: this.messagetext,
+                user: {
+                    name: $('.dropdown-toggle').text()
+                }
 
             });
 

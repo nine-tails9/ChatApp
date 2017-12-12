@@ -35,8 +35,10 @@
 
                 this.$emit('sent', {
 
-                    message: this.messagetext,
-                    author: "Deepanshu"
+                    Message: this.messagetext,
+                    user:{
+                        name: $('.dropdown-toggle').text()
+                    }
 
                 });
 

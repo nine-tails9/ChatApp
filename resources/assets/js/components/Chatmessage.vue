@@ -4,10 +4,10 @@
 	<div class="panel panel-default">
 		  
 			 <div class="panel-body">
-		    	{{ message.message }}
+		    	{{ message.Message }}
 		  	</div>
 		  	
-		  	<div class="panel-footer"><small>Sent By {{ message.author }}</small></div>
+		  	<div class="panel-footer"><small>Sent By {{ message.user.name }}</small></div>
 		</div>
     </div>
     </div>
