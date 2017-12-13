@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Hey There</title>
+	<title>Chatty</title>
 	<link rel="stylesheet" type="text/css" href="css/app.css">
 	<meta name="csrf-token" content="{{ csrf_token() }}">	
 </head>
@@ -20,7 +20,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        {{ config('app.name', 'Chatty') }}
                     </a>
                 </div>
 
@@ -36,7 +36,9 @@
                         @guest
                             <li><a href="{{ route('login') }}">Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>
+
                         @else
+                            <li><a href="/chat">Chat</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -51,7 +53,7 @@
                                         </a>
 
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
+                                        
                                         </form>
                                     </li>
                                 </ul>
@@ -63,7 +65,10 @@
         </nav>
 
 	<div id="app">
-		<h1>ChatRoom</h1>
+		<h1>ChatRoom
+    
+        <span class="badge pull-right">@{{ online.length}}</span>
+        </h1>
 
 		<chat-log :messages="messages"></chat-log>
 		<chat-composer v-on:sent="addmessage"></chat-composer>

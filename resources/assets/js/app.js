@@ -28,14 +28,13 @@ const app = new Vue({
 
     data: {
 
-    		messages: []
+    		messages: [],
+            online: []
     	
     },
     methods:{
 
     	addmessage(Message){
-
-            this.messages.push(Message);
 
     		axios.post('/messages', Message).then(response =>{
 
@@ -48,7 +47,32 @@ const app = new Vue({
         axios.get('/messages').then(response =>{
 
             this.messages = response.data;
-            console.log(response);
+            
         });
-    }
+        
+        
+        Echo.join('chatroom')
+            .here((users)=>{
+
+                this.online = users;
+            })
+            .joining((user)=>{
+
+                this.online.push(user);
+            })
+            .leaving((user)=>{
+
+                this.online = this.online.filter(u => u!=user);
+            })
+            .listen('MessagePosted', (e) => {
+                
+                this.messages.push({
+
+                    Message: e.Message.Message,
+                    user: e.user
+
+                });
+            
+          });
+        }
 });

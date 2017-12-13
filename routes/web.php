@@ -1,5 +1,7 @@
 <?php
 
+use App\Events\MessagePosted;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,13 +31,13 @@ Route::post('/messages', function () {
    
    $user = Auth::user();
 
-   $Message = request()->get('Message');
+   $message = $user -> messages() -> create([
 
-   $user -> messages() -> create([
-
-   		'Message' => $Message
+   		'Message' => request()->get('Message')
 
    ]);
+
+   event(new MessagePosted($message, $user));
 
    return ['status' => 'ok'];
    
